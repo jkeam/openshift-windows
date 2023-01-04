@@ -14,13 +14,13 @@ poll_for_return_code() {
 }
 
 # delete app
-oc delete -f ./app.yaml
+oc delete -f ./ocp/app.yaml
 poll_for_return_code 5 1 "oc get project windoze -o name"
 
 # delete operator
-oc delete -f ./operator.yaml
+oc delete -f ./ocp/operator.yaml
 
 # delete machineset
 oc project openshift-machine-api
-oc process -f ./machine-set-template.yaml -p INFRA_ID=$(oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster) -p ZONE=us-east-1a -p REGION=us-east-1 -p AMI=ami-0ec317eee5f7e45f0 | oc delete -f -
-oc delete -f ./runtime-class.yaml
+oc process -f ./ocp/machine-set-template.yaml -p INFRA_ID=$(oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster) -p ZONE=us-east-1a -p REGION=us-east-1 -p AMI=ami-0ec317eee5f7e45f0 | oc delete -f -
+oc delete -f ./ocp/runtime-class.yaml

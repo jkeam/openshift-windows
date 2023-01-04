@@ -14,7 +14,7 @@ poll_for_operator_creation() {
 }
 
 echo 'installing operator...'
-oc create -f ./operator.yaml
+oc create -f ./ocp/operator.yaml
 poll_for_operator_creation
 
 echo 'generating key...'
@@ -24,9 +24,9 @@ oc create secret generic cloud-private-key --from-file=private-key.pem=./windows
 
 echo 'creating machineset and runtime class...'
 oc project openshift-machine-api
-oc process -f ./machine-set-template.yaml -p INFRA_ID=$(oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster) -p ZONE=us-east-1a -p REGION=us-east-1 -p AMI=ami-0ec317eee5f7e45f0 | oc create -f -
-oc create -f ./runtime-class.yaml
+oc process -f ./ocp/machine-set-template.yaml -p INFRA_ID=$(oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster) -p ZONE=us-east-1a -p REGION=us-east-1 -p AMI=ami-0ec317eee5f7e45f0 | oc create -f -
+oc create -f ./ocp/runtime-class.yaml
 
 echo 'deploying app...'
-oc create -f ./app.yaml
+oc create -f ./ocp/app.yaml
 oc project windoze
