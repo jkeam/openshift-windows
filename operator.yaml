@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-windows-machine-config-operator 
+  labels:
+    openshift.io/cluster-monitoring: "true" 
+
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: windows-machine-config-operator
+  namespace: openshift-windows-machine-config-operator
+spec:
+  targetNamespaces:
+  - openshift-windows-machine-config-operator
+
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: windows-machine-config-operator
+  namespace: openshift-windows-machine-config-operator
+spec:
+  channel: "stable" 
+  installPlanApproval: "Automatic" 
+  name: "windows-machine-config-operator"
+  source: "redhat-operators" 
+  sourceNamespace: "openshift-marketplace" 
