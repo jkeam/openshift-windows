@@ -93,7 +93,7 @@ Run `oc create -f ./app.yaml`
 This will remove the app as well as the machine sets, runtime class, and operator completely.
 
 ### Automated
-Run `./destroy.sh`
+Run `./uninstall.sh`
 
 ### Manual
 1. Delete app
