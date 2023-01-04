@@ -5,11 +5,11 @@
 #   arg2: return code as an int
 #   arg3: command as a string
 poll_for_return_code() {
-  # until [ "$?" -eq $2 ]; do eval $3; sleep $1; done
+  eval $3 2> /dev/null
   until [ "$?" -eq $2 ]
   do
     sleep $1
-    eval $3
+    eval $3 2> /dev/null
   done
 }
 
