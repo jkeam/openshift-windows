@@ -39,9 +39,15 @@ ssh-keygen -t ed25519 -N '' -f ./windows-key
 oc create secret generic cloud-private-key --from-file=private-key.pem=./windows-key -n openshift-windows-machine-config-operator
 ```
 
-3. Machine Sets
+3. Find AMI
+
+```shell
+Supported Versions of Windows:
 Amazon Web Services (AWS) - Windows Server 2019, version 1809
 Microsoft Azure - Windows Server 2022, OS Build 20348.681 or later AND Windows Server 2019, version 1809
+```
+
+AWS for example, find the right AMI:
 
 ```shell
 aws ec2 describe-images --region <aws region name> --filters "Name=name,Values=Windows_Server-2019*English*Full*Containers*" "Name=is-public,Values=true" --query "reverse(sort_by(Images, &CreationDate))[*].{name: Name, id: ImageId}" --output table
@@ -69,6 +75,7 @@ So using latest: `ami-0ec317eee5f7e45f0`
 4. Create machine set
 
 ```shell
+# change availabilty zone and region as needed
 oc project openshift-machine-api
 oc process -f ./machine-set-template.yaml -p INFRA_ID=$(oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster) -p ZONE=us-east-1a -p REGION=us-east-1 -p AMI=ami-0ec317eee5f7e45f0 | oc create -f -
 ```
@@ -104,6 +111,7 @@ oc delete -f ./operator.yaml
 3. Delete machines set
 
 ```shell
+# change availabilty zone and region as needed
 oc project openshift-machine-api
 oc process -f ./machine-set-template.yaml -p INFRA_ID=$(oc get -o jsonpath='{.status.infrastructureName}{"\n"}' infrastructure cluster) -p ZONE=us-east-1a -p REGION=us-east-1 -p AMI=ami-0ec317eee5f7e45f0 | oc delete -f -
 ```
