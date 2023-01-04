@@ -30,7 +30,7 @@ Run `./install.sh`
 
 ### Manual
 
-1. Install Windows Machine Config Operator 
+1. Install `Windows Machine Config Operator` from Red Hat (not Community, unless you want to) using the OperatorHub in the OpenShift Web Console
 
 2. Generate secret - make it different than the ssh key used during cluster installation
 
@@ -108,7 +108,7 @@ oc delete -f ./app.yaml
 oc delete -f ./operator.yaml
 ```
 
-3. Delete machines set
+3. Delete machine set
 
 ```shell
 # change availabilty zone and region as needed
